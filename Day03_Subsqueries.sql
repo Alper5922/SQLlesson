@@ -24,13 +24,14 @@ INSERT INTO markalar VALUES(101, 'Pierre Cardin', 18000);
 INSERT INTO markalar VALUES(102, 'Adidas', 10000);
 INSERT INTO markalar VALUES(103, 'LCWaikiki', 21000);
 
+
 -- Çalisan sayisi 15.000’den cok olan markalarin isimlerini ve bu markada calisanlarin isimlerini ve 
 --maaşlarini listeleyin.
-SELECT isim, maas, isyeri from calisanlar
+SELECT isim, maas, isyeri from calisanlar2
 where isyeri in (select marka_isim from markalar where calisan_sayisi>15000);
 
 -- marka_id’si 101’den büyük olan marka çalişanlarinin isim, maaş ve şehirlerini listeleyiniz.
-SELECT isim, maas, sehir from calisanlar
+SELECT isim, maas, sehir from calisanlar2
 where isyeri in (select marka_isim from markalar where marka_id > 101 );
 -- Ankara’da calisani olan markalarin marka id'lerini ve calisan sayilarini listeleyiniz
 
@@ -138,6 +139,12 @@ WHERE exists (select urun_id FROM nisan WHERE mart.urun_id=nisan.urun_id)
 SELECT urun_isim,musteri_isim FROM nisan
 WHERE exists (SELECT urun_isim FROM mart where mart.urun_isim=nisan.urun_isim);
 
+--Her iki ayda ortak satilmayan ürünlerin URUN_ISIM'lerini ve bu ürünleri
+--NİSAN ayında satın alan MUSTERI_ISIM'lerini listeleyen bir sorgu yazınız.
+
+select urun_isim, musteri_isim from nisan where not exists (select urun_isim from mart where mart.urun_isim=nisan.urun_isim)
+
+
 
 
 
@@ -183,15 +190,15 @@ update tedarikciler
 set firma_ismi='casper', irtibat_ismi='Ali Veli' where vergi_no=101;
 
 
--- urunler tablosundaki 'Phone' değerlerini 'Telefon' olarak güncelleyiniz.
+-- urunler1 tablosundaki 'Phone' değerlerini 'Telefon' olarak güncelleyiniz.
 update urunler1
 set urun_isim='Telefon' where urun_isim='Phone';
 
--- urunler tablosundaki urun_id değeri 1004'ten büyük olanların urun_id’sini 1 arttırın.
+-- urunler1 tablosundaki urun_id değeri 1004'ten büyük olanların urun_id’sini 1 arttırın.
 update urunler1
 set urun_id =urun_id+1 where urun_id>1004;
 
--- urunler tablosundaki tüm ürünlerin urun_id değerini ted_vergino sutun değerleri ile toplayarak güncelleyiniz.
+-- urunler1 tablosundaki tüm ürünlerin urun_id değerini ted_vergino sutun değerleri ile toplayarak güncelleyiniz.
 update urunler1
 set urun_id=urun_id+ted_vergino;
 
@@ -204,6 +211,8 @@ delete from urunler1;
 UPDATE urunler1                      
 SET urun_isim = (SELECT firma_ismi FROM tedarikciler WHERE irtibat_ismi = 'Adam Eve')                       
 WHERE musteri_isim='Ali Bak';
+
+select * from urunler1 
 
 /*Urunler tablosunda laptop satin alan musterilerin ismini, firma_ismi Apple’in 
 irtibat_isim'i ile degistirin.*/
