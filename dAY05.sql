@@ -102,4 +102,23 @@ SELECT isim,maas FROM personel WHERE maas<5000
   SELECT id from personel where sehir in('Istanbul','Ankara')
   INTERSECT
   select id from personel_bilgi where cocuk_sayisi in (2,3)
+  
+  --Honda,Ford ve Tofas’ta calisan ortak isimde personel varsa listeleyin
+
+SELECT isim FROM personel WHERE sirket='Honda'
+INTERSECT
+SELECT isim FROM personel WHERE sirket='Ford'
+INTERSECT
+SELECT isim FROM personel WHERE sirket='Tofas'
+​
+-- EXCEPT(MINUS) KULLANIMI
+/*
+İki sorgulamada harici bir sorgulama istenirse EXCEPT komutu kullanılır
+*/
+​
+-- 5000’den az maas alip Honda’da calismayanlari yazdirin
+​
+SELECT isim,sirket FROM personel WHERE maas<5000
+EXCEPT
+SELECT isim,sirket FROM personel WHERE sirket='Honda'
 
